@@ -1,12 +1,9 @@
 import { Negociacoes } from "../models/negociacoes.js";
+import { View } from "./view.js";
 
-export class NegociacoesView {
-
-    private elemento: HTMLElement;
-
-    constructor(seletor: string) {
-        this.elemento = document.querySelector(seletor);
-    }
+// NEGOCIACOES-VIEW É FILHA DA CLASSE_VIEWS: herda seus métodos
+// <NEGOCIACOES> DEFINE O TIPO DE PARÂMETRO QUE A CLASSE_PAI RECEBERÁ DA FILHA
+export class NegociacoesView extends View<Negociacoes> {
 
     // MÉTODO_TEMPLATE: DECLARA O LAYOUT QUE SERÁ RENDERIZADO NA PÁGINA
     template(model: Negociacoes): string {
@@ -32,12 +29,5 @@ export class NegociacoesView {
                 </tbody>
             </table>
         `;
-    }
-
-    // MÉTODO_UPDATE: RENDERIZA O MÉTODO TEMPLATE
-    update(model: Negociacoes): void {
-        const template = this.template(model);
-        console.log(template);
-        this.elemento.innerHTML = template;
     }
 }
