@@ -4,9 +4,8 @@ import { View } from "./view.js";
 // NEGOCIACOES-VIEW É FILHA DA CLASSE_VIEWS: herda seus métodos
 // <NEGOCIACOES> DEFINE O TIPO DE PARÂMETRO QUE A CLASSE_PAI RECEBERÁ DA FILHA
 export class NegociacoesView extends View<Negociacoes> {
-
     // MÉTODO_TEMPLATE: DECLARA O LAYOUT QUE SERÁ RENDERIZADO NA PÁGINA
-    template(model: Negociacoes): string {
+    protected template(model: Negociacoes): string {
         return `
             <table class="table table-hover table-bordered">
                 <thead>
@@ -17,17 +16,24 @@ export class NegociacoesView extends View<Negociacoes> {
                     </tr>
                 </thead>
                 <tbody>
-                    ${model.lista().map(negociacao => {
-                        return `
+                    ${model
+                        .lista()
+                        .map((negociacao) => {
+                            return `
                             <tr>
-                                <td>${Intl.DateTimeFormat().format(negociacao.data)}</td>
+                                <td>${this.formatar(negociacao.data)}</td>
                                 <td>${negociacao.quantidade}</td>
                                 <td>${negociacao.valor}</td>
                             </tr>
                         `;
-                    }).join('')}
+                        })
+                        .join("")}
                 </tbody>
             </table>
         `;
+    }
+
+    private formatar(data: Date): string {
+        return new Intl.DateTimeFormat().format(data);
     }
 }
