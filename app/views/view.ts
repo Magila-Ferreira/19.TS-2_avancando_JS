@@ -4,18 +4,32 @@
 export abstract class View<T> {
     // PROPRIEDADE_PROTECTED: as CLASSES_FILHAS conseguem acessá-la
     protected elemento: HTMLElement;
+    private escapar: boolean = false;
 
-    constructor(seletor: string) {
+    // PARÂMETRO-OPCIONAL_?: permite utilizar o método sem que seja necessária a declaração de um parâmetro  
+    constructor(seletor: string, escapar?: boolean) {
         this.elemento = document.querySelector(seletor);
+        
+        // LÓGICA DE TRATO DO PARÂMETRO OPCIONAL: adiciona o parâmetro opcional recebido ao método em questão
+        if (escapar) {
+            this.escapar = escapar;
+        }
     }
 
     // MÉTODO_ABSTRATO: exige a sobreescrita do MÉTODO na CLASSE_FILHA, durante o desenvolvimento
     // TIPAGEM_PROTECTED: permite que o atributo seja acessado apenas dentro da CLASSE_PAI e de suas FILHAS
     protected abstract template(model: T): string;
-
+ 
     // MÉTODO_UPDATE: RENDERIZA O MÉTODO TEMPLATE
     public update(model: T): void {
-        const template = this.template(model);
+        let template = this.template(model);
+        if (this.escapar) {
+            template = template.replace(/<script>[\s\S]*?<\/script>/, '');
+        }
         this.elemento.innerHTML = template;
+    }
+
+    public remove(model: T): void {
+        this.elemento.innerHTML = "";
     }
 }

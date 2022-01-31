@@ -13,4 +13,13 @@ export class Negociacao {
         const data = new Date(this._data.getTime());
         return data;
     }
+
+    // MODIFICADOR_STATIC: permite chamar um método direto na classe, sem instanciá-la.
+    public static criaDe(dataString: string, quantidadeString: string, valorString: string): Negociacao {
+        const exp = /-/g;
+        const date = new Date(dataString.replace(exp, ","));
+        const quantidade = parseInt(quantidadeString);
+        const valor = parseFloat(valorString);
+        return new Negociacao(date, quantidade, valor);
+    }
 }
