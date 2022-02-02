@@ -8,8 +8,14 @@ export abstract class View<T> {
 
     // PARÂMETRO-OPCIONAL_?: permite utilizar o método sem que seja necessária a declaração de um parâmetro  
     constructor(seletor: string, escapar?: boolean) {
-        this.elemento = document.querySelector(seletor);
-        
+        // FORMA DE TRATAR O RETORNNO NULLO PARA NULLCHECKS
+        const elemento = document.querySelector(seletor);
+        if (elemento) {
+            this.elemento = elemento as HTMLLIElement;
+        } else {
+            throw Error(`Seletor ${seletor} não existe no DOM. Verifique-o!`);
+        }
+
         // LÓGICA DE TRATO DO PARÂMETRO OPCIONAL: adiciona o parâmetro opcional recebido ao método em questão
         if (escapar) {
             this.escapar = escapar;

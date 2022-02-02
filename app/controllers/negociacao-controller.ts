@@ -14,9 +14,11 @@ export class NegociacaoController {
     private mensagemViewFDS = new MensagemView("#mensagemView__FDS");
 
     constructor() {
-        this.inputData = document.querySelector("#data");
-        this.inputQuantidade = document.querySelector("#quantidade");
-        this.inputValor = document.querySelector("#valor");
+        /* SILENCIAR O NULLCHECK: não reclama o retorno de um objeto nullo para QUERY_SELECTOR */
+        this.inputData = <HTMLInputElement>document.querySelector("#data");
+        /* FORMA CONVENCIONAL DE SILENCIAR O NULLCHECK */
+        this.inputQuantidade = document.querySelector("#quantidade") as HTMLInputElement;
+        this.inputValor = document.querySelector("#valor") as HTMLInputElement;
         this.negociacoesView.update(this.negociacoes);
     }
 
